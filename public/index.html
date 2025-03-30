@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forntend</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Dynamic Content</h1>
+    <button class="button">Load Data</button>
+    <div class="container">
+        <div class="box"> 
+            <h1>Item 1</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis reprehenderit ipsam nam nemo, quam praesentium maxime cupiditate sed, modi voluptate, totam exercitationem animi expedita facilis. Totam beatae inventore ipsum et! Perferendis iure eum illo esse aspernatur maxime quod minus earum!</p>
+        </div>
+    </div>
+    <script>
+        const divv = document.querySelector(".container");
+        const button = document.querySelector(".button");
+        button.addEventListener("click",async function(){
+            divv.innerHTML = "";
+            await fetch("/data")
+            .then(res=>res.json())
+            .then(data=>{
+                console.log(data);
+                // data.data.map(item => {
+                    
+                // })
+
+                
+                data.data[0].map(item => {
+                    console.log(item);
+                    const box = document.createElement("div");
+                    box.classList.add("box");
+                    box.innerHTML = `
+                    <h1>Item ${item.id}</h1>
+                    <p>${item.content}</p>
+                    `;
+                    divv.appendChild(box);
+                });
+            })
+        })
+    </script>
+</body>
+</html>
